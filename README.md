@@ -1,4 +1,4 @@
-# jgatttool - Java library for BLuetooth LE GATT 
+# jgatttool - Java library for Bluetooth LE GATT 
 
 ## Overview
 
