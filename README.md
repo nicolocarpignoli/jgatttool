@@ -8,10 +8,22 @@ jgatttool is a wrapper of `gatttool` command-line utility and it uses BlueZ (req
 
 ## Motivation
 
-It is difficult to find a cross-platform BLE library for any language except for Smartphone's most used programming languages. `gatttool` is a great command-line tool that works great on Linux but it's written in C and there aren't similiar well documented libraries or tools. So I wrote myself this jgatttool wrapper to easily write and read GATT property values in Java.
+It is difficult to find a cross-platform BLE library for any language except for Smartphone's most used programming languages. `gatttool` is a great command-line tool that works great on Linux but it's written in C and it's not documented, and there aren't similar documented libraries or tools. So I wrote myself this jgatttool wrapper to easily write and read GATT property values in Java.
+
+## Documentation
+
+The code is pretty self-explained and it's basically a set of API and parsing methods.
+
+## Contributing
+
+Pull-requests and Issues are welcome.
 
 ## Next improvements
 
 * Parsing of all data types
 * Notifications management
-* Request timeout management
+* Request's timeout management
+
+## License
+
+This project is released under MIT license as you can check in LICENSE.md file.
