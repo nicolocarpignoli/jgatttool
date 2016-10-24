@@ -82,8 +82,19 @@ public class BLEConnection {
 	public void populateCharacteristics() throws InterruptedException{
 		Process process = executeCmd(initString + macaddr + " --characteristics");
 		Scanner scanner = new Scanner(process.getInputStream());
+		boolean found = false;
 		while(scanner != null && scanner.hasNext()){
-			characteristics.add(GattParser.parseCharacteristic(scanner.nextLine()));
+			BLECharacteristic chars = GattParser.parseCharacteristic(scanner.nextLine());
+			for(BLECharacteristic c : characteristics){
+				if(c.getUUID().equals(chars.getUUID())){
+					c.setHnd(chars.getHnd());
+					found = true;
+				}
+			}
+			if (!found){
+				// remove comment if wanted to discover unknown characteristics
+				// characteristics.add(chars);
+			}
 		}
 		process.waitFor();
 		process.destroy();
@@ -94,21 +105,15 @@ public class BLEConnection {
 		Process process = null;
 		if(chars.getIsreadable()){
 			Class type = chars.getTypeClass();
-			for(BLECharacteristic c : characteristics){
-				if(chars.getUUID().equals(c.getUUID())){
-					process = executeCmd(initString + macaddr + " --char-read -a " + c.getHnd());
-					Scanner scanner = new Scanner(process.getInputStream());
-					if(scanner != null  && scanner.hasNextLine()){						
-						Object ret = GattParser.convertGattForRead(type.getName(),scanner.nextLine());
-						process.waitFor();
-						process.destroy();
-						scanner.close();
-						return ret;
-					}
-				}
+			process = executeCmd(initString + macaddr + " --char-read -a " + chars.getHnd());
+			Scanner scanner = new Scanner(process.getInputStream());
+			if(scanner != null  && scanner.hasNextLine()){						
+				Object ret = GattParser.convertGattForRead(type.getName(),scanner.nextLine());
+				process.waitFor();
+				process.destroy();
+				scanner.close();
+				return ret;
 			}
-			System.out.println("Error in read, UUID not found");
-		}else{
 			System.out.println("Error in read, permission denied");
 		}
 		return null;
@@ -126,23 +131,17 @@ public class BLEConnection {
 			if(chars.getTypeClass().getName().equals(value.getClass().getName())){
 				System.out.println("Error in write. Wrong type");
 				return;
+			}	
+			String type = chars.getTypeClass().getName();
+			String val = GattParser.convertGattForWrite(type, value);
+			process = executeCmd(initString + macaddr + " --char-write-req -a " + chars.getHnd() + " -n " + val);
+			Scanner scanner = new Scanner(process.getInputStream());
+			if(scanner != null){						
+				process.waitFor();
+				process.destroy();
+				scanner.close();
+				return;
 			}
-			for(BLECharacteristic c : characteristics){
-				if(chars.getUUID().equals(c.getUUID())){	
-					String type = chars.getTypeClass().getName();
-					String val = GattParser.convertGattForWrite(type, value);
-					process = executeCmd(initString + macaddr + " --char-write-req -a " + c.getHnd() + " -n " + val);
-					Scanner scanner = new Scanner(process.getInputStream());
-					if(scanner != null){						
-						process.waitFor();
-						process.destroy();
-						scanner.close();
-						return;
-					}
-				}
-			}
-			System.out.println("Error in write, UUID not found");
-		}else{
 			System.out.println("Error in write, permission denied");
 		}
 	}

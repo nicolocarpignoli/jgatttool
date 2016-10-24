@@ -39,17 +39,19 @@ public class DataParser {
 	}
 	
 	public static String reverseEndianHex(String originalHex) {
-	    if(originalHex.length() < 2) return originalHex;
-		int lengthInBytes = originalHex.length() / 2;
-	    char[] chars = new char[lengthInBytes * 2];
-	    for (int index = 0; index < lengthInBytes; index++) {
-	        int reversedIndex = lengthInBytes - 1 - index;
-	        chars[reversedIndex * 2] = originalHex.charAt(index * 2);
-	        chars[reversedIndex * 2 + 1] = originalHex.charAt(index * 2 + 1);
-	    }
-	    return new String(chars);
+		 if(originalHex.length() % 2 != 0){
+			 originalHex = "0" + originalHex;
+		 }
+		 if(originalHex.length() < 2) return originalHex;
+			int lengthInBytes = originalHex.length() / 2;
+		    char[] chars = new char[lengthInBytes * 2];
+		    for (int index = 0; index < lengthInBytes; index++) {
+		        int reversedIndex = lengthInBytes - 1 - index;
+		        chars[reversedIndex * 2] = originalHex.charAt(index * 2);
+		        chars[reversedIndex * 2 + 1] = originalHex.charAt(index * 2 + 1);
+		    }
+		    return new String(chars);
 	}
-
 
 	
 }

@@ -43,7 +43,7 @@ public class GattParserTest {
 	
 	@Test
 	public void gattForWriteTest(){
-		String str = (long)0 + "";
+		String str = (long)0 + "0";
 		String str2 =  GattParser.convertGattForWrite("long",(long)0);
 		assertEquals(str, str2);
 	}
