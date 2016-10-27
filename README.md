@@ -2,7 +2,7 @@
 
 ## Overview
 
-This library provides Java API for reading and writing values exposed by a Bluetooth Low Energy device such as sensors, wearable, etc. BLE bases his data model on Generic  Attribute Profile (GATT).
+This library provides Java API for reading and writing values exposed by a Bluetooth Low Energy device such as sensors, wearable, etc. BLE bases his data model on Generic  Attribute Profile (GATT). With jgatttool you can realize your own BLE central device in Java.
 
 jgatttool is a wrapper of `gatttool` command-line utility and it uses BlueZ (requires Linux).
 
