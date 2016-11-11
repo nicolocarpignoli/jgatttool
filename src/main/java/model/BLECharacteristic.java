@@ -9,14 +9,24 @@ public class BLECharacteristic<T>{
 	private boolean isnotify;
 	private Object value;
 	private final Class<T> typeClass;
+	private boolean isOn;	// if true dev is activated and value is realtime value, if false value is lkv
 	
-	public BLECharacteristic(Class<T> type, String uuid, String handle, boolean isread, boolean iswrite, boolean isnotif){
+	public BLECharacteristic(Object val, Class<T> type, String uuid, String handle, boolean isread, boolean iswrite, boolean isnotif){
 		typeClass = type;
 		UUID = uuid;
 		hnd = handle;
 		isreadable = isread;
 		iswritable = iswrite;
 		isnotify = isnotif;	
+		value = val;
+	}
+	
+
+	public boolean isOn() {
+		return isOn;
+	}
+	public void setOn(boolean isOn) {
+		this.isOn = isOn;
 	}
 	public Class<T> getTypeClass() {
 		return typeClass;

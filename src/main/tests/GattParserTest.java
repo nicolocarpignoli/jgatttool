@@ -18,7 +18,7 @@ public class GattParserTest {
 	
 	@Test
 	public void parseCharacteristicTest(){
-		BLECharacteristic chars = new BLECharacteristic(null, "00002a00-0000-1000-8000-00805f9b34fb", "0x0003",false,false,false);
+		BLECharacteristic chars = new BLECharacteristic(0,null, "00002a00-0000-1000-8000-00805f9b34fb", "0x0003",false,false,false);
 		BLECharacteristic chars2 = GattParser.parseCharacteristic(("handle = 0x0002, char properties = 0x02, char value handle = 0x0003, "
 						+ "uuid = 00002a00-0000-1000-8000-00805f9b34fb"));
 		assertEquals(chars.getHnd(), chars2.getHnd());

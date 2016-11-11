@@ -28,7 +28,7 @@ public class GattParser {
 		String tok = tokens[0];
 		tokens = tok.split(delims);
 		String hnd = tokens[1];
-		return new BLECharacteristic(null,uuid, hnd, false, false, false);
+		return new BLECharacteristic(0,null,uuid, hnd, false, false, false);
 	}
 	
 	// give an hexa string as output from gatttool raw string

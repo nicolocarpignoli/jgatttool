@@ -50,13 +50,6 @@ public class BLEConnection {
 	}
 
 
-	public boolean reachedTimeout(long scad, long timeout){
-		//TODO implement timeout management
-		long now = System.currentTimeMillis() + timeout;
-		return now >= scad;
-	}
-	
-
 	public Process executeCmd(String cmd){
 		Process process = null;
 		try {
@@ -68,22 +61,27 @@ public class BLEConnection {
 		
 	}	
 
-	public void populateServices() throws InterruptedException{
+	public boolean populateServices() throws InterruptedException{
 		Process process = executeCmd(initString + macaddr + " --primary");
 		Scanner scanner = new Scanner(process.getInputStream());
+		boolean connected = false;
 		while(scanner != null && scanner.hasNext()){
+			connected = true;
 			services.add(GattParser.parseService(scanner.nextLine()));
 		}
 		process.waitFor();
 		process.destroy();
 		scanner.close();
+		return connected;
 	}
 	
-	public void populateCharacteristics() throws InterruptedException{
+	public boolean populateCharacteristics() throws InterruptedException{
 		Process process = executeCmd(initString + macaddr + " --characteristics");
 		Scanner scanner = new Scanner(process.getInputStream());
 		boolean found = false;
+		boolean connected = false;
 		while(scanner != null && scanner.hasNext()){
+			connected = true;
 			BLECharacteristic chars = GattParser.parseCharacteristic(scanner.nextLine());
 			for(BLECharacteristic c : characteristics){
 				if(c.getUUID().equals(chars.getUUID())){
@@ -99,6 +97,7 @@ public class BLEConnection {
 		process.waitFor();
 		process.destroy();
 		scanner.close();
+		return connected;
 	}
 	
 	public Object read_data(BLECharacteristic chars) throws InterruptedException{
@@ -107,7 +106,7 @@ public class BLEConnection {
 			Class type = chars.getTypeClass();
 			process = executeCmd(initString + macaddr + " --char-read -a " + chars.getHnd());
 			Scanner scanner = new Scanner(process.getInputStream());
-			if(scanner != null  && scanner.hasNextLine()){						
+			if(scanner != null  && scanner.hasNextLine()){	
 				Object ret = GattParser.convertGattForRead(type.getName(),scanner.nextLine());
 				process.waitFor();
 				process.destroy();

@@ -19,13 +19,6 @@ public class BLEConnectionTest {
 		conn = new BLEConnection("");
 	}
 
-	@Test
-	public void reachedTimeoutTest() {
-		long scad = 0;
-		long timeout = 1;
-		boolean bool = conn.reachedTimeout(1,1);
-		assertEquals(true,bool);
-	}
 	
 	@Test
 	public void executeCmdTest(){
@@ -40,7 +33,7 @@ public class BLEConnectionTest {
 	// to test in linux env
 	@Test
 	public void read_dataTest() throws InterruptedException{
-		BLECharacteristic chars = new BLECharacteristic(int.class, "", "", true, false, false);
+		BLECharacteristic chars = new BLECharacteristic(0,int.class, "", "", true, false, false);
 		chars.setValue(0);
 		//conn.read_data(chars);
 		assertEquals(0, chars.getValue());
@@ -48,7 +41,7 @@ public class BLEConnectionTest {
 	
 	@Test
 	public void write_dataTest() throws InterruptedException{
-		BLECharacteristic chars = new BLECharacteristic(int.class, "", "", false, true, false);
+		BLECharacteristic chars = new BLECharacteristic(0,int.class, "", "", false, true, false);
 		//conn.write_data(chars, 1, false);
 		//conn.read_data(chars);
 		assertNotEquals(1,chars.getValue());
