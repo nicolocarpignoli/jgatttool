@@ -23,7 +23,7 @@ Pull-requests and Issues are welcome.
 
 * Parsing of all data types
 * Notifications management
-* Request's timeout management
+
 
 ## License
 
