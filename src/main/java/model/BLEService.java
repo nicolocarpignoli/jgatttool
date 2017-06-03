@@ -25,5 +25,4 @@ public class BLEService {
 		this.hnd = hnd;
 	}
 	
-	
 }

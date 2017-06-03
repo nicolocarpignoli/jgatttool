@@ -52,7 +52,4 @@ public class DataParser {
 		    }
 		    return new String(chars);
 	}
-
-
-	
 }

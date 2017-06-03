@@ -1,14 +1,10 @@
 
 
 import static org.junit.Assert.*;
-
 import java.util.Scanner;
-
 import org.junit.Before;
-
 import model.BLECharacteristic;
 import model.BLEConnection;
-
 import org.junit.Test;
 
 public class BLEConnectionTest {
@@ -29,7 +25,6 @@ public class BLEConnectionTest {
 		assertEquals("Configurazione",str);
 	}
 	
-
 	// to test in linux env
 	@Test
 	public void read_dataTest() throws InterruptedException{
@@ -47,5 +42,4 @@ public class BLEConnectionTest {
 		assertNotEquals(1,chars.getValue());
 	}
 	
-
 }

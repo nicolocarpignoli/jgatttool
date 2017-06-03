@@ -36,9 +36,9 @@ public class GattParserTest {
 	
 	@Test
 	public void gattForReadTest(){
-		long n = 0;
-		long s = (long)GattParser.convertGattForRead("long", "Characteristic value/descriptor: 00 00 00 00");
-		assertEquals(n, s);
+		long number = 0;
+		long numberForGatt = (long)GattParser.convertGattForRead("long", "Characteristic value/descriptor: 00 00 00 00");
+		assertEquals(number, numberForGatt);
 	}
 	
 	@Test

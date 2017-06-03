@@ -1,10 +1,7 @@
 package model;
 
-
 import java.util.Scanner;
-
 import util.GattParser;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -14,41 +11,33 @@ public class BLEConnection {
 	private ArrayList<BLECharacteristic> characteristics= new ArrayList<BLECharacteristic>();
 	private String macaddr;
 
-	
 	public BLEConnection(String mac){
 		macaddr = mac;
 	}	
-	
 	
 	public ArrayList<BLEService> getServices() {
 		return services;
 	}
 
-
 	public void setServices(ArrayList<BLEService> services) {
 		this.services = services;
 	}
-
 
 	public ArrayList<BLECharacteristic> getCharacteristics() {
 		return characteristics;
 	}
 
-
 	public void setCharacteristics(ArrayList<BLECharacteristic> characteristics) {
 		this.characteristics = characteristics;
 	}
-
 
 	public String getMacaddr() {
 		return macaddr;
 	}
 
-
 	public void setMacaddr(String macaddr) {
 		this.macaddr = macaddr;
 	}
-
 
 	public Process executeCmd(String cmd){
 		Process process = null;
@@ -58,7 +47,6 @@ public class BLEConnection {
 			System.out.println("Error, cannot execute prompt command");
 		}
 		return process;
-		
 	}	
 
 	public boolean populateServices() throws InterruptedException{
