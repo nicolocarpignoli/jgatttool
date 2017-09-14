@@ -8,7 +8,7 @@ public class BLECharacteristic<T>{
 	private boolean isnotify;
 	private Object value;
 	private final Class<T> typeClass;
-	private boolean isOn;	// if true dev is activated and value is realtime value. if false value is lkv
+	private boolean isOn;	// if true dev is activated and value is realtime valu if false value is lkv
 	
 	public BLECharacteristic(Object val, Class<T> type, String uuid, String handle, 
 		boolean isread, boolean iswrite, boolean isnotif){
