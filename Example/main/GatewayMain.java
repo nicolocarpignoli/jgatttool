@@ -12,11 +12,11 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import model.BLECharacteristic;
 
 public class GatewayMain {
-	private final static String GATEWAY_UUID = "d2a36a22-acb8-11e6-80f5-56304dec7eb8";
-	private final static String TOPIC_GW = "figs/campo1/" + GATEWAY_UUID + "/status";
-	private final static String TOPIC = "figs/campo1/";
-	private final static String DEF_PSW = "usr-psw";
-	private static String SERVER_IP = "89.96.192.72";
+	private final static String GATEWAY_UUID = "yourGWId";
+	private final static String TOPIC_GW = "corp/field/" + GATEWAY_UUID + "/status";
+	private final static String TOPIC = "corp/field/";
+	private final static String DEF_PSW = "psw";
+	private static String SERVER_IP = "yourIp";
 	
 	public static boolean populateProperties(BLEDevice dev){
 		if(dev != null){
@@ -38,14 +38,11 @@ public class GatewayMain {
     	System.out.println(SERVER_IP);
 		int id_cont = 0;
 		ArrayList<BLEDevice> allBLEdev = new ArrayList<BLEDevice>();
-		//MqttPub publisher = new MqttPub("tcp://" + SERVER_IP + ":1883", TOPIC_GW, ""+(++id_cont));
-		BLEDevice arduinodev = new BLEDevice("d2a36a22-acb8-11e6-80f5-76304dec7eb7", 
-				"1","Genuino101", "98:4F:EE:0F:CF:6F");
+		BLEDevice arduinodev = new BLEDevice("yourArduinoUUID", 
+				"1","Genuino101", "yourMacAddr");
 		Genuino101Adapter adapter = new Genuino101Adapter();	
-		//RegistryAdapter registry = new RegistryAdapter("localhost");
 		GatewayCore core = new GatewayCore();
 		arduinodev.setAdapter(adapter);
-		//allBLEdev.add(arduinodev);
 		for(BLEDevice d : allBLEdev){
 			if(core.checkDev_in_Registry(d.getUUID())){
 				core.connect_to_BLE_dev(d);
@@ -56,24 +53,10 @@ public class GatewayMain {
 				System.out.println("Error: cannot authenticate dev: " + d.getType() + " with UUID " + d.getUUID());
 			}
 		}
-		//populateProperties(arduinodev);
-		
-		System.out.println("----- TRYING TO WRITE . -----");
-		String s="";
+		String s = "";
 		for(BLEDevice d : core.getBLEDevices()){
 			core.set_BLE_val_from_dev(d, s);
 		}
-		/*while(true){
-			
-			
-			for(BLEDevice d : core.getBLEDevices()){
-				core.get_BLE_val_from_dev(d);
-				for(Property p : d.getProp()){
-					publisher.publish(TOPIC + d.getUUID() + "/" + p.getDomain() + "/" + p.getName(), 
-							p.printMsg() + "_" + GATEWAY_UUID);
-				}
-				Thread.sleep(2000);
-			}*/
 		}
 	}
 		

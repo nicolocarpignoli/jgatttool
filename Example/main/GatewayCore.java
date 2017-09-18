@@ -40,13 +40,11 @@ public class GatewayCore {
 		return registry.checkIfEquals(UUID, def_psw);
 	}
 
-	//TODO write characteristics
 	public void set_BLE_val_from_dev(BLEDevice d, String str){
 		long myMessage = 1;
 		try {
 			d.getAdapter().writeAuth(myMessage);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

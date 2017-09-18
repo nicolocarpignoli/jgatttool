@@ -88,49 +88,13 @@ public class Genuino101Adapter {
 		return (int)read_generic(7);
 	}
 	
-	
 	public long readAuth() throws InterruptedException{
 		return (long)read_generic(12);
 	}
-	
-	
+
 	public void writeAuth(long myAuth) throws InterruptedException{
 		write_generic(12,myAuth);
 	}
-	
-	/*
-	public int readMode() throws InterruptedException{
-		return (int)read_generic(8);
-	}
-	public void writeMode(int mode) throws InterruptedException{
-		write_generic(8,mode);
-	}
-	public int readSrange() throws InterruptedException{
-		return (int)read_generic(9);
-	}
-	public void writeSrange(int srange) throws InterruptedException{
-		write_generic(9,srange);
-	}
-	public int readArange() throws InterruptedException{
-		return (int)read_generic(10);
-	}
-	public void writeArange(int arange) throws InterruptedException{
-		write_generic(10,arange);
-	}
-	public int readGrange() throws InterruptedException{
-		return (int)read_generic(11);
-	}
-	public void writeGrange(int grange) throws InterruptedException{
-		write_generic(11,grange);
-	}
-	public int readCalib() throws InterruptedException{
-		return (int)read_generic(12);
-	}
-	public void writeCalib(int calib) throws InterruptedException{
-		write_generic(12,calib);
-	}
-	*/
-	
 	
 	public BLEConnection getConn() {
 		return conn;
