@@ -1,7 +1,10 @@
 package model;
 
+
 import java.util.Scanner;
+
 import util.GattParser;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,11 +13,11 @@ public class BLEConnection {
 	private ArrayList<BLEService> services = new ArrayList<BLEService>();
 	private ArrayList<BLECharacteristic> characteristics= new ArrayList<BLECharacteristic>();
 	private String macaddr;
-
+	
 	public BLEConnection(String mac){
 		macaddr = mac;
 	}	
-	
+		
 	public ArrayList<BLEService> getServices() {
 		return services;
 	}
@@ -47,10 +50,12 @@ public class BLEConnection {
 			System.out.println("Error, cannot execute prompt command");
 		}
 		return process;
+		
 	}	
 
 	public boolean populateServices() throws InterruptedException{
 		Process process = executeCmd(initString + macaddr + " --primary");
+		if(process == null) return false;
 		Scanner scanner = new Scanner(process.getInputStream());
 		boolean connected = false;
 		while(scanner != null && scanner.hasNext()){
@@ -64,17 +69,26 @@ public class BLEConnection {
 	}
 	
 	public boolean populateCharacteristics() throws InterruptedException{
+		boolean hasSkippedFirstChars = false;
 		Process process = executeCmd(initString + macaddr + " --characteristics");
+		if(process == null) return false;
 		Scanner scanner = new Scanner(process.getInputStream());
 		boolean found = false;
 		boolean connected = false;
 		while(scanner != null && scanner.hasNext()){
 			connected = true;
-			BLECharacteristic chars = GattParser.parseCharacteristic(scanner.nextLine());
-			for(BLECharacteristic c : characteristics){
-				if(c.getUUID().equals(chars.getUUID())){
-					c.setHnd(chars.getHnd());
+			BLECharacteristic singleCharInGattool = GattParser.parseCharacteristic(scanner.nextLine());			
+			if(!hasSkippedFirstChars && !(singleCharInGattool.getUUID().equals(characteristics.get(0).getUUID()))){
+				continue;
+			}else{
+				hasSkippedFirstChars = true;
+			}
+			
+			for(BLECharacteristic singleChar : characteristics){
+				if(singleChar.getUUID().toLowerCase().equals(singleCharInGattool.getUUID().toLowerCase())){
+					singleChar.setHnd(singleCharInGattool.getHnd());
 					found = true;
+				
 				}
 			}
 			if (!found){
@@ -93,6 +107,7 @@ public class BLEConnection {
 		if(chars.getIsreadable()){
 			Class type = chars.getTypeClass();
 			process = executeCmd(initString + macaddr + " --char-read -a " + chars.getHnd());
+			if(process == null) return process;
 			Scanner scanner = new Scanner(process.getInputStream());
 			if(scanner != null  && scanner.hasNextLine()){	
 				Object ret = GattParser.convertGattForRead(type.getName(),scanner.nextLine());
@@ -101,6 +116,8 @@ public class BLEConnection {
 				scanner.close();
 				return ret;
 			}
+			
+		}else{
 			System.out.println("Error in read, permission denied");
 		}
 		return null;
@@ -122,6 +139,7 @@ public class BLEConnection {
 			String type = chars.getTypeClass().getName();
 			String val = GattParser.convertGattForWrite(type, value);
 			process = executeCmd(initString + macaddr + " --char-write-req -a " + chars.getHnd() + " -n " + val);
+			if(process == null) return;
 			Scanner scanner = new Scanner(process.getInputStream());
 			if(scanner != null){						
 				process.waitFor();
@@ -129,6 +147,7 @@ public class BLEConnection {
 				scanner.close();
 				return;
 			}
+		}else{
 			System.out.println("Error in write, permission denied");
 		}
 	}
