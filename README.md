@@ -13,11 +13,12 @@ You can use this library in any Linux system that includes `gatttool` (Linux Des
 
 ## Examples
 
-WIP
+On the Example directory you can find a use case example for jgattool library. The system represent an IoT architecture with focus on the communication between a Gateway device and a Genuino101 device. To run the example you have to configure the connection strings and addressed of devices and mock components that are not uploaded - because they are private.
+The only aim of this example is to show a real use case of the library.
 
 ## Documentation
 
-The code is pretty much self-explained and it's basically a set of APIs and parsing methods.
+The code is pretty much self-explained and it's basically a set of APIs for convert and parse data.
 
 ## Contributing
 
