@@ -1,10 +1,7 @@
 package model;
 
-
 import java.util.Scanner;
-
 import util.GattParser;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
