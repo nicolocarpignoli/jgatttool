@@ -1,6 +1,5 @@
 package model;
 
-
 public class BLECharacteristic<T>{
 	private String name;
 	private String UUID;
