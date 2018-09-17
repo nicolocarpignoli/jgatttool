@@ -5,13 +5,13 @@ import main.Genuino101Adapter;
 public class BLEDevice extends Device {
 	private String mac;
 	private Genuino101Adapter adapter;
-	
+
 	public BLEDevice(String UUID, String id, String type, String mac) {
 		super(UUID, id, type);
 		this.mac = mac;
 		this.adapter = new Genuino101Adapter();
 	}
-	
+
 	public String getMac() {
 		return mac;
 	}
@@ -27,6 +27,5 @@ public class BLEDevice extends Device {
 	public void setAdapter(Genuino101Adapter adapter) {
 		this.adapter = adapter;
 	}
-
 
 }
